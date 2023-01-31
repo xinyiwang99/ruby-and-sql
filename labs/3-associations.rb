@@ -17,8 +17,41 @@ Activity.destroy_all
 # 1. insert 3 rows in the activities table with relationships to
 # a single salesperson and 2 different contacts
 
+ben = Salesman.find_by({"first_name" =>"ben","last_name" =>"Block"})
+tim = Contact.find_by({"first_name" =>"Tim"})
+lowie = Contact.find_by ({"first_name" => "Lowie"})
+
+activity = Activity.new
+activity["salesperson_id"] =ben["id"] 
+activity["contact_id"] = tim["id"]
+activity["note"] = "quick checkin over facetime"
+activity.save
+
+activity = Activity.new
+activity["salesperson_id"] =ben["id"] 
+activity["contact_id"] = tim["id"]
+activity["note"] = "met at Cupertino"
+activity.save
+
+activity = Activity.new
+activity["salesperson_id"] =ben["id"] 
+activity["contact_id"] = lowie["id"]
+activity["note"] = "met at Blue Origin HQ"
+activity.save
+puts Activity.all.inspect
+
+
 # 2. Display all the activities between the salesperson used above
 # and one of the contacts (sample output below):
+
+activities = Activity.where({"salesperson_id" => ben["id"],"contact_id"=> tim["id"]})
+
+for activity in activities
+    note = activity["note"]
+    puts "#{note}"
+end
+
+
 
 # ---------------------------------
 # Activities between Ben and Tim Cook:
